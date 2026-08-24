@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class PlannedTransactionTest {
 
-
     // Creates PlannedTransaction object and checks if 0 is equal to positive.
     @Test
     void isPositive_withZeroAmount_returnsTrue() {
