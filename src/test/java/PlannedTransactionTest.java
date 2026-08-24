@@ -1,4 +1,8 @@
+import org.m450.model.PlannedTransaction;
+import org.m450.model.enums.RecurrenceType;
+
 import org.junit.jupiter.api.Test;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -13,7 +17,7 @@ public class PlannedTransactionTest {
         PlannedTransaction transaction = new PlannedTransaction(
                 1,
                 BigDecimal.ZERO,
-                LocalDate.of(2026, 8,21),
+                LocalDate.of(2026, 8, 21),
                 RecurrenceType.ONCE,
                 1,
                 1
