@@ -59,10 +59,10 @@
                 </dependencies>
                 <configuration>
                     <targetClasses>
-                        <param>org.m450.budgetplanner.*</param>
+                        <param>org.m450.*</param>
                     </targetClasses>
                     <targetTests>
-                        <param>org.m450.budgetplanner.*Test</param>
+                        <param>org.m450.*Test</param>
                     </targetTests>
                 </configuration>
             </plugin>
