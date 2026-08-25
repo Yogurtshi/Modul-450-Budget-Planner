@@ -1,12 +1,23 @@
-import org.m450.model.PlannedTransaction;
-import org.m450.model.enums.RecurrenceType;
+package org.m450.budgetplanner.model;
+
+import org.m450.budgetplanner.model.PlannedTransaction;
+import org.m450.budgetplanner.model.enums.RecurrenceType;
+
 import org.junit.jupiter.api.Test;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 
 public class PlannedTransactionTest {
+
+    private static PlannedTransaction tx(int id, int categoryId, RecurrenceType recurrenceType) {
+        return new PlannedTransaction(
+                id, new BigDecimal("10.00"), LocalDate.of(2026, 1, 1), recurrenceType, categoryId, 1);
+    }
 
     // Creates PlannedTransaction object and checks if 0 is equal to positive.
     @Test

@@ -1,5 +1,5 @@
 import org.junit.jupiter.api.Test;
-import org.m450.model.Account;
+import org.m450.budgetplanner.model.Account;
 import java.math.BigDecimal;
 import static org.junit.jupiter.api.Assertions.*;
 
