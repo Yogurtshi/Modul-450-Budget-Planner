@@ -74,61 +74,59 @@ Alle Model-Klassen besitzen Getter/Setter für jedes Feld. Zusätzlich definiert
 
 ### Customer
 
-| Methode | Typ | Zweck |
-|---|---|---|
-| createCustomer(name, birthday) | Create | Neuen Customer anlegen |
-| getId/getName/getBirthday() | Read | Felder auslesen |
-| editName(name) | Update | Namen ändern |
-| editBirthday(birthday) | Update | Geburtsdatum ändern |
-| deleteCustomer(id) | Delete | Customer löschen |
-| findCustomerByName(name) | Helper | Ersetzt ursprüngliches `login()`, sucht bestehenden Customer |
-| findCustomerById(id) | Helper | Sucht Customer anhand id |
-| isValidBirthday(birthday) | Helper | Validierung: Datum plausibel (Edge Cases) |
-| calculateAge() | Helper | Berechnet Alter aus birthday |
+| Methode                                                  | Typ           | Zweck                                                        |
+|----------------------------------------------------------|---------------|--------------------------------------------------------------|
+| register(name, birthday)                                 | Create/Helper | Neuen Customer anlegen                                       |
+| getId/getName/getBirthday()                              | Read          | Felder auslesen                                              |
+| setId/setName/setBirthday()                              | Read          | Felder auslesen                                              |
+| editName(name)                                           | Update        | Namen ändern                                                 |
+| editBirthday(birthday)                                   | Update        | Geburtsdatum ändern                                          |
+| deleteCustomer(id)                                       | Delete        | Customer löschen                                             |
+| findCustomerByName(name)                                 | Helper        | Ersetzt ursprüngliches `login()`, sucht bestehenden Customer |
+| findCustomerById(id)                                     | Helper        | Sucht Customer anhand id                                     |
+| isValidBirthday(birthday)                                | Helper        | Validierung: Datum plausibel (Edge Cases)                    |
+| delete/create Account                                    | Create/Delete | Neue Account erstellen                                       |
+| delete/create Transaction                                | Create/Delete | Neue Transaction erstellen                                   |
+| filterByCategory(list, category)                         | Helper        | Filtert Liste nach Kategorie (Sammlungen & Listen)           |
+| filterByCategoryAndRecurrence(list, category, on_repeat) | Helper        | Kombinierter Filter (Kombinatorische Logik)                  |
+| login                                                    | Read          | Login in Benutzers UserAccount                               |
+
 
 ### Account
 
-| Methode | Typ | Zweck |
-|---|---|---|
-| createAccount(name, fk_customer) | Create | Neuen Account anlegen |
-| getId/getName/getBalance/getFkCustomer() | Read | Felder auslesen |
-| listAccounts(fk_customer) | Read | Alle Accounts eines Customers |
-| selectAccount(id) | Helper | Bestehenden Account auswählen |
-| editAccountName(name) | Update | Namen ändern |
-| editBalance(balance) | Update | Kontostand ändern |
-| deleteAccount(id) | Delete | Account löschen |
-| deposit(amount) | Helper | Kontostand erhöhen, inkl. Validierung |
-| withdraw(amount) | Helper | Kontostand verringern, inkl. Deckungsprüfung |
-| isValidAmount(amount) | Helper | Zentrale Betragsvalidierung (Grenzwerte) |
-| recalculateBalance(transactions) | Helper | Kontostand neu aus Transaktionsliste berechnen |
+| Methode                                 | Typ | Zweck                                    |
+|-----------------------------------------|---|------------------------------------------|
+| setId/setName/setBalance/setFkCustomer() | Read | Felder auslesen                          |
+| getId/getName/getBalance/getFkCustomer() | Read | Felder auslesen                          |
+| editAccountName(name)                   | Update | Namen ändern                             |
+| editBalance(balance)                    | Update | Kontostand ändern                        |
+| isValidAmount(amount)                   | Helper | Zentrale Betragsvalidierung (Grenzwerte) |
+| listAccounts(fk_customer)               | Helper | Alle Accoutns eines Benutzers            |
 
 ### PlannedTransaction
 
-| Methode | Typ | Zweck |
-|---|---|---|
-| createTransaction(amount, date, on_repeat, fk_category, fk_account) | Create | Neue Transaktion anlegen |
-| getId/getAmount/getDate/getOnRepeat/getFkCategory/getFkAccount() | Read | Felder auslesen |
-| listTransactions(fk_account) | Read | Alle Transaktionen eines Accounts |
-| editAmount/editDate/editOnRepeat/editFkCategory(...) | Update | Einzelne Felder ändern |
-| deleteTransaction(id) | Delete | Transaktion löschen |
-| isPositive() | Helper | Prüft Einnahme vs. Ausgabe |
-| filterByCategory(list, category) | Helper | Filtert Liste nach Kategorie (Sammlungen & Listen) |
-| filterByCategoryAndRecurrence(list, category, on_repeat) | Helper | Kombinierter Filter (Kombinatorische Logik) |
-| sumByCategory(list, category) | Helper | Summiert Beträge einer Kategorie |
-| isValidTransaction(amount, date, category) | Helper | Validierung vor dem Erstellen |
+| Methode                                                             | Typ    | Zweck |
+|---------------------------------------------------------------------|--------|---|
+| getId/getAmount/getDate/getOnRepeat/getFkCategory/getFkAccount()    | Read   | Felder auslesen |
+| setId/setAmount/setDate/setOnRepeat/setFkCategory/setFkAccount()    | Read   | Felder auslesen |
+| listTransactions(fk_account)                                        | Helper | Alle Transaktionen eines Accounts |
+| editAmount/editDate/editOnRepeat/editFkCategory(...)                | Update | Einzelne Felder ändern |
+| isPositive()                                                        | Helper | Prüft Einnahme vs. Ausgabe |
+| sumByCategory(list, category)                                       | Helper | Summiert Beträge einer Kategorie |
+| isValidTransaction(amount, date, category)                          | Helper | Validierung vor dem Erstellen |
 
 ### Category
 
-| Methode | Typ | Zweck |
-|---|---|---|
-| createCategory(name) | Create | Neue Kategorie anlegen |
-| getId/getName() | Read | Felder auslesen |
-| listCategories() | Read | Alle Kategorien |
-| editCategoryName(name) | Update | Namen ändern |
-| deleteCategory(id) | Delete | Kategorie löschen |
-| findCategoryById(id) | Helper | Sucht Kategorie anhand id |
-| findCategoryByName(name) | Helper | Sucht Kategorie anhand Namen |
-| isNameUnique(name, existingCategories) | Helper | Verhindert doppelte Kategorienamen |
+| Methode                                | Typ           | Zweck |
+|----------------------------------------|---------------|---|
+| getId/getName()                        | Read          | Felder auslesen |
+| setId/setName()                        | Read          | Felder auslesen |
+| listCategories()                       | Helper        | Alle Kategorien |
+| editCategoryName(name)                 | Update/Helper | Namen ändern |
+| deleteCategory(id)                     | Delete/Helper | Kategorie löschen |
+| findCategoryById(id)                   | Helper        | Sucht Kategorie anhand id |
+| findCategoryByName(name)               | Helper        | Sucht Kategorie anhand Namen |
+| isNameUnique(name, existingCategories) | Helper        | Verhindert doppelte Kategorienamen |
 
 ## Minimal notwendiger Kern für die Bewertung
 
