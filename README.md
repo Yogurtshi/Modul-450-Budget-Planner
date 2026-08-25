@@ -74,17 +74,23 @@ Alle Model-Klassen besitzen Getter/Setter für jedes Feld. Zusätzlich definiert
 
 ### Customer
 
-| Methode | Typ | Zweck |
-|---|---|---|
-| createCustomer(name, birthday) | Create | Neuen Customer anlegen |
-| getId/getName/getBirthday() | Read | Felder auslesen |
-| editName(name) | Update | Namen ändern |
-| editBirthday(birthday) | Update | Geburtsdatum ändern |
-| deleteCustomer(id) | Delete | Customer löschen |
-| findCustomerByName(name) | Helper | Ersetzt ursprüngliches `login()`, sucht bestehenden Customer |
-| findCustomerById(id) | Helper | Sucht Customer anhand id |
-| isValidBirthday(birthday) | Helper | Validierung: Datum plausibel (Edge Cases) |
-| calculateAge() | Helper | Berechnet Alter aus birthday |
+| Methode                                                  | Typ           | Zweck                                                        |
+|----------------------------------------------------------|---------------|--------------------------------------------------------------|
+| register(name, birthday)                                 | Create/Helper | Neuen Customer anlegen                                       |
+| getId/getName/getBirthday()                              | Read          | Felder auslesen                                              |
+| setId/setName/setBirthday()                              | Read          | Felder auslesen                                              |
+| editName(name)                                           | Update        | Namen ändern                                                 |
+| editBirthday(birthday)                                   | Update        | Geburtsdatum ändern                                          |
+| deleteCustomer(id)                                       | Delete        | Customer löschen                                             |
+| findCustomerByName(name)                                 | Helper        | Ersetzt ursprüngliches `login()`, sucht bestehenden Customer |
+| findCustomerById(id)                                     | Helper        | Sucht Customer anhand id                                     |
+| isValidBirthday(birthday)                                | Helper        | Validierung: Datum plausibel (Edge Cases)                    |
+| delete/create Account                                    | Create/Delete | Neue Account erstellen                                       |
+| delete/create Transaction                                | Create/Delete | Neue Transaction erstellen                                   |
+| filterByCategory(list, category)                         | Helper        | Filtert Liste nach Kategorie (Sammlungen & Listen)           |
+| filterByCategoryAndRecurrence(list, category, on_repeat) | Helper        | Kombinierter Filter (Kombinatorische Logik)                  |
+| login                                                    | Read          | Login in Benutzers UserAccount                               |
+
 
 ### Account
 
@@ -106,8 +112,6 @@ Alle Model-Klassen besitzen Getter/Setter für jedes Feld. Zusätzlich definiert
 | listTransactions(fk_account)                                        | Helper | Alle Transaktionen eines Accounts |
 | editAmount/editDate/editOnRepeat/editFkCategory(...)                | Update | Einzelne Felder ändern |
 | isPositive()                                                        | Helper | Prüft Einnahme vs. Ausgabe |
-| filterByCategory(list, category)                                    | Helper | Filtert Liste nach Kategorie (Sammlungen & Listen) |
-| filterByCategoryAndRecurrence(list, category, on_repeat)            | Helper | Kombinierter Filter (Kombinatorische Logik) |
 | sumByCategory(list, category)                                       | Helper | Summiert Beträge einer Kategorie |
 | isValidTransaction(amount, date, category)                          | Helper | Validierung vor dem Erstellen |
 
