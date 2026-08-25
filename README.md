@@ -88,19 +88,13 @@ Alle Model-Klassen besitzen Getter/Setter für jedes Feld. Zusätzlich definiert
 
 ### Account
 
-| Methode | Typ | Zweck |
-|---|---|---|
-| createAccount(name, fk_customer) | Create | Neuen Account anlegen |
+| Methode                                  | Typ | Zweck |
+|------------------------------------------|---|---|
+| setId/setName/setBalance/setFkCustomer() | Read | Felder auslesen |
 | getId/getName/getBalance/getFkCustomer() | Read | Felder auslesen |
-| listAccounts(fk_customer) | Read | Alle Accounts eines Customers |
-| selectAccount(id) | Helper | Bestehenden Account auswählen |
-| editAccountName(name) | Update | Namen ändern |
-| editBalance(balance) | Update | Kontostand ändern |
-| deleteAccount(id) | Delete | Account löschen |
-| deposit(amount) | Helper | Kontostand erhöhen, inkl. Validierung |
-| withdraw(amount) | Helper | Kontostand verringern, inkl. Deckungsprüfung |
-| isValidAmount(amount) | Helper | Zentrale Betragsvalidierung (Grenzwerte) |
-| recalculateBalance(transactions) | Helper | Kontostand neu aus Transaktionsliste berechnen |
+| editAccountName(name)                    | Update | Namen ändern |
+| editBalance(balance)                     | Update | Kontostand ändern |
+| isValidAmount(amount)                    | Helper | Zentrale Betragsvalidierung (Grenzwerte) |
 
 ### PlannedTransaction
 
