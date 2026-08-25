@@ -14,9 +14,7 @@ public class AccountTest {
                 new BigDecimal("100.00"),
                 1
         );
-
         boolean result = account.isValidAmount(new BigDecimal("0.01"));
-
         assertTrue(result);
     }
 
@@ -28,9 +26,7 @@ public class AccountTest {
                 new BigDecimal("100.00"),
                 1
         );
-
         boolean result = account.isValidAmount(new BigDecimal("-0.01"));
-
         assertTrue(result);
     }
 
@@ -44,9 +40,7 @@ public class AccountTest {
                 new BigDecimal("100.00"),
                 1
         );
-
         boolean result = account.isValidAmount(new BigDecimal("0"));
-
         assertFalse(result);
     }
 
@@ -58,9 +52,7 @@ public class AccountTest {
                 new BigDecimal("100.00"),
                 1
         );
-
         boolean result = account.isValidAmount(null);
-
         assertFalse(result);
     }
 
@@ -73,9 +65,7 @@ public class AccountTest {
                 new BigDecimal("100.00"),
                 1
         );
-
         account.deposit(new BigDecimal("50.00"));
-
         assertEquals(new BigDecimal("150.00"), account.getBalance());
     }
 
@@ -97,20 +87,19 @@ public class AccountTest {
 
     // Withdraw Test
     @Test
-    void withdraw_withPositiveAmount_decreasesBalance() {
+    void withdraw_withNegativeAmount_decreasesBalance() {
         Account account = new Account(
                 1,
                 "Main account",
                 new BigDecimal("100.00"),
                 1
         );
-
         account.withdraw(new BigDecimal("-50.00"));
         assertEquals(new BigDecimal("50.00"), account.getBalance());
     }
 
     @Test
-    void withdraw_withNegativeAmount_throwsIllegalArgumentException() {
+    void withdraw_withPositiveAmount_throwsIllegalArgumentException() {
         Account account = new Account(
                 1,
                 "Main account",
