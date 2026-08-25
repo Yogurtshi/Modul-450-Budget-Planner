@@ -103,7 +103,6 @@ public class CustomerTest {
   @Test
   void editBirthday_withValidDate_updatesBirthday() {
     Customer customer = new Customer(1, "Anna", LocalDate.of(2000, 1, 1));
-
     customer.editBirthday(LocalDate.of(1999, 6, 1));
 
     assertEquals(LocalDate.of(1999, 6, 1), customer.getBirthday());
