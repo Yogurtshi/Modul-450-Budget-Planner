@@ -88,28 +88,28 @@ Alle Model-Klassen besitzen Getter/Setter für jedes Feld. Zusätzlich definiert
 
 ### Account
 
-| Methode                                  | Typ | Zweck |
-|------------------------------------------|---|---|
-| setId/setName/setBalance/setFkCustomer() | Read | Felder auslesen |
-| getId/getName/getBalance/getFkCustomer() | Read | Felder auslesen |
-| editAccountName(name)                    | Update | Namen ändern |
-| editBalance(balance)                     | Update | Kontostand ändern |
-| isValidAmount(amount)                    | Helper | Zentrale Betragsvalidierung (Grenzwerte) |
+| Methode                                 | Typ | Zweck                                    |
+|-----------------------------------------|---|------------------------------------------|
+| setId/setName/setBalance/setFkCustomer() | Read | Felder auslesen                          |
+| getId/getName/getBalance/getFkCustomer() | Read | Felder auslesen                          |
+| editAccountName(name)                   | Update | Namen ändern                             |
+| editBalance(balance)                    | Update | Kontostand ändern                        |
+| isValidAmount(amount)                   | Helper | Zentrale Betragsvalidierung (Grenzwerte) |
+| listAccounts(fk_customer)               | Helper | Alle Accoutns eines Benutzers            |
 
 ### PlannedTransaction
 
-| Methode | Typ | Zweck |
-|---|---|---|
-| createTransaction(amount, date, on_repeat, fk_category, fk_account) | Create | Neue Transaktion anlegen |
-| getId/getAmount/getDate/getOnRepeat/getFkCategory/getFkAccount() | Read | Felder auslesen |
-| listTransactions(fk_account) | Read | Alle Transaktionen eines Accounts |
-| editAmount/editDate/editOnRepeat/editFkCategory(...) | Update | Einzelne Felder ändern |
-| deleteTransaction(id) | Delete | Transaktion löschen |
-| isPositive() | Helper | Prüft Einnahme vs. Ausgabe |
-| filterByCategory(list, category) | Helper | Filtert Liste nach Kategorie (Sammlungen & Listen) |
-| filterByCategoryAndRecurrence(list, category, on_repeat) | Helper | Kombinierter Filter (Kombinatorische Logik) |
-| sumByCategory(list, category) | Helper | Summiert Beträge einer Kategorie |
-| isValidTransaction(amount, date, category) | Helper | Validierung vor dem Erstellen |
+| Methode                                                             | Typ    | Zweck |
+|---------------------------------------------------------------------|--------|---|
+| getId/getAmount/getDate/getOnRepeat/getFkCategory/getFkAccount()    | Read   | Felder auslesen |
+| setId/setAmount/setDate/setOnRepeat/setFkCategory/setFkAccount()    | Read   | Felder auslesen |
+| listTransactions(fk_account)                                        | Helper | Alle Transaktionen eines Accounts |
+| editAmount/editDate/editOnRepeat/editFkCategory(...)                | Update | Einzelne Felder ändern |
+| isPositive()                                                        | Helper | Prüft Einnahme vs. Ausgabe |
+| filterByCategory(list, category)                                    | Helper | Filtert Liste nach Kategorie (Sammlungen & Listen) |
+| filterByCategoryAndRecurrence(list, category, on_repeat)            | Helper | Kombinierter Filter (Kombinatorische Logik) |
+| sumByCategory(list, category)                                       | Helper | Summiert Beträge einer Kategorie |
+| isValidTransaction(amount, date, category)                          | Helper | Validierung vor dem Erstellen |
 
 ### Category
 
