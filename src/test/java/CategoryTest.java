@@ -74,4 +74,3 @@ public class CategoryTest {
 
     assertEquals("Groceries", category.getName());
   }
-}
