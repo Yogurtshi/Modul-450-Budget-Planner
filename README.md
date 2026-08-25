@@ -113,16 +113,16 @@ Alle Model-Klassen besitzen Getter/Setter für jedes Feld. Zusätzlich definiert
 
 ### Category
 
-| Methode | Typ | Zweck |
-|---|---|---|
-| createCategory(name) | Create | Neue Kategorie anlegen |
-| getId/getName() | Read | Felder auslesen |
-| listCategories() | Read | Alle Kategorien |
-| editCategoryName(name) | Update | Namen ändern |
-| deleteCategory(id) | Delete | Kategorie löschen |
-| findCategoryById(id) | Helper | Sucht Kategorie anhand id |
-| findCategoryByName(name) | Helper | Sucht Kategorie anhand Namen |
-| isNameUnique(name, existingCategories) | Helper | Verhindert doppelte Kategorienamen |
+| Methode                                | Typ           | Zweck |
+|----------------------------------------|---------------|---|
+| getId/getName()                        | Read          | Felder auslesen |
+| setId/setName()                        | Read          | Felder auslesen |
+| listCategories()                       | Helper        | Alle Kategorien |
+| editCategoryName(name)                 | Update/Helper | Namen ändern |
+| deleteCategory(id)                     | Delete/Helper | Kategorie löschen |
+| findCategoryById(id)                   | Helper        | Sucht Kategorie anhand id |
+| findCategoryByName(name)               | Helper        | Sucht Kategorie anhand Namen |
+| isNameUnique(name, existingCategories) | Helper        | Verhindert doppelte Kategorienamen |
 
 ## Minimal notwendiger Kern für die Bewertung
 
