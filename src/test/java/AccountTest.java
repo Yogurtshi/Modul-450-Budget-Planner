@@ -1,8 +1,6 @@
 import org.junit.jupiter.api.Test;
 import org.m450.model.Account;
-
 import java.math.BigDecimal;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AccountTest {
