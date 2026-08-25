@@ -13,6 +13,7 @@
         <maven.compiler.target>25</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -28,13 +29,13 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>5.14.2</version>
+            <version>5.20.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
-            <version>5.14.2</version>
+            <version>5.20.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -59,10 +60,14 @@
                 </dependencies>
                 <configuration>
                     <targetClasses>
-                        <param>org.m450.*</param>
+                        <param>org.m450.budgetplanner.*</param>
+                        <param>org.m450.budgetplanner.model.*</param>
+                        <param>org.m450.budgetplanner.service.*</param>
                     </targetClasses>
                     <targetTests>
-                        <param>org.m450.*Test</param>
+                        <param>org.m450.budgetplanner.*Test</param>
+                        <param>org.m450.budgetplanner.model.*Test</param>
+                        <param>org.m450.budgetplanner.service.*Test</param>
                     </targetTests>
                 </configuration>
             </plugin>
