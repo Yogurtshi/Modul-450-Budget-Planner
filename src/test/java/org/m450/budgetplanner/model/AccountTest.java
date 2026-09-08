@@ -1,3 +1,5 @@
+package org.m450.budgetplanner.model;
+
 import org.junit.jupiter.api.Test;
 import org.m450.budgetplanner.model.Account;
 import java.math.BigDecimal;

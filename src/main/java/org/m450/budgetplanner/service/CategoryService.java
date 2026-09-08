@@ -2,9 +2,9 @@ package org.m450.budgetplanner.service;
 
 import org.m450.budgetplanner.model.Category;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class CategoryService {
 
@@ -17,18 +17,20 @@ public class CategoryService {
     this.categories = categories;
   }
 
-  public Category createCategory(String name) {
-    if (!Category.isNameUnique(name, categories)) {
+  public Category createCategory(String name, int customerId) {
+    if (!Category.isNameUnique(name, customerId, categories)) {
       throw new IllegalArgumentException("Category name already exists: " + name);
     }
     int nextId = categories.stream().mapToInt(Category::getId).max().orElse(0) + 1;
-    Category category = new Category(nextId, name);
+    Category category = new Category(nextId, name, customerId);
     categories.add(category);
     return category;
   }
 
-  public List<Category> listCategories() {
-    return Collections.unmodifiableList(categories);
+  public List<Category> listCategories(int customerId) {
+    return categories.stream()
+            .filter(c -> c.getCustomerId() == customerId)
+            .collect(Collectors.toUnmodifiableList());
   }
 
   public void deleteCategory(int id) {
@@ -42,10 +44,13 @@ public class CategoryService {
     return categories.stream().filter(c -> c.getId() == id).findFirst();
   }
 
-  public Optional<Category> findCategoryByName(String name) {
+  public Optional<Category> findCategoryByName(String name, int customerId) {
     if (name == null) {
       throw new IllegalArgumentException("Name must not be null");
     }
-    return categories.stream().filter(c -> c.getName().equalsIgnoreCase(name)).findFirst();
+    return categories.stream()
+            .filter(c -> c.getCustomerId() == customerId)
+            .filter(c -> c.getName().equalsIgnoreCase(name))
+            .findFirst();
   }
 }
