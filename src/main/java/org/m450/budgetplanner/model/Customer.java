@@ -1,5 +1,5 @@
 package org.m450.budgetplanner.model;
-
+import java.util.List;
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -62,4 +62,15 @@ public class Customer {
   public int calculateAge() {
     return Period.between(birthday, LocalDate.now()).getYears();
   }
+
+  public static boolean isNameUnique(String name, List<Customer> existingCustomers) {
+    if (name == null) {
+      throw new IllegalArgumentException("Name must not be null");
+    }
+    if (existingCustomers == null) {
+      throw new IllegalArgumentException("Customer list must not be null");
+    }
+    return existingCustomers.stream().noneMatch(c -> c.getName().equalsIgnoreCase(name));
+  }
+
 }

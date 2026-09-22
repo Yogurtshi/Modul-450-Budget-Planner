@@ -27,6 +27,7 @@ public class ConsoleMenu {
   private final CategoryService categoryService;
   private final TransactionService transactionService;
 
+  private Customer activeCustomer;
   private Account activeAccount;
 
   public ConsoleMenu(String dataFilePath) {
@@ -40,7 +41,12 @@ public class ConsoleMenu {
 
   public void run() {
     System.out.println("=== Budget Planner ===");
-    ensureCustomerAndAccount();
+    activeCustomer = showLoginOrRegisterMenu();
+    if (activeCustomer == null) {
+      System.out.println("Goodbye!");
+      return;
+    }
+    activeAccount = manageAccounts();
 
     boolean running = true;
     while (running) {
@@ -51,7 +57,8 @@ public class ConsoleMenu {
         case "2" -> createCategory();
         case "3" -> addTransaction();
         case "4" -> showTransactionsByCategory();
-        case "5" -> {
+        case "5" -> activeAccount = manageAccounts();
+        case "6" -> {
           storageService.save(data);
           System.out.println("Saved. Goodbye!");
           running = false;
@@ -63,29 +70,172 @@ public class ConsoleMenu {
 
   private void printMenu() {
     System.out.println();
+    System.out.println("Logged in as: " + activeCustomer.getName()
+            + " | Active account: " + activeAccount.getName());
     System.out.println("1) Show balance");
     System.out.println("2) Create category");
     System.out.println("3) Add transaction");
     System.out.println("4) Show transactions by category");
-    System.out.println("5) Save & exit");
+    System.out.println("5) Manage / switch account");
+    System.out.println("6) Save & exit");
     System.out.print("Choice: ");
   }
 
-  private void ensureCustomerAndAccount() {
-    if (customerService.listCustomers().isEmpty()) {
-      System.out.print("Your name: ");
-      String name = scanner.nextLine().trim();
+  // ==========================================================
+  // Login / Register
+  // ==========================================================
 
-      LocalDate birthday = readValidDate("Your birthday (YYYY-MM-DD): ");
-      Customer customer = customerService.createCustomer(name, birthday);
-
-      BigDecimal startingBalance = readValidAmount("Starting balance: ");
-      activeAccount = accountService.createAccount("Main account", startingBalance, customer.getId());
-    } else {
-      Customer customer = customerService.listCustomers().get(0);
-      activeAccount = accountService.listAccounts(customer.getId()).get(0);
+  private Customer showLoginOrRegisterMenu() {
+    while (true) {
+      System.out.println();
+      System.out.println("1) Login");
+      System.out.println("2) Register");
+      System.out.println("3) Exit");
+      System.out.print("Choice: ");
+      String choice = scanner.nextLine().trim();
+      switch (choice) {
+        case "1": {
+          Customer customer = login();
+          if (customer != null) {
+            return customer;
+          }
+          break;
+        }
+        case "2": {
+          Customer customer = register();
+          if (customer != null) {
+            return customer;
+          }
+          break;
+        }
+        case "3":
+          return null;
+        default:
+          System.out.println("Invalid input.");
+      }
     }
   }
+
+  private Customer login() {
+    while (true) {
+      System.out.print("Name (or type 'back' to return): ");
+      String name = scanner.nextLine().trim();
+      if (name.equalsIgnoreCase("back")) {
+        return null;
+      }
+      try {
+        return customerService.login(name);
+      } catch (IllegalArgumentException e) {
+        System.out.println("Error: " + e.getMessage());
+      }
+    }
+  }
+
+  private Customer register() {
+    while (true) {
+      System.out.print("Choose a name: ");
+      String name = scanner.nextLine().trim();
+      LocalDate birthday = readValidDate("Your birthday (YYYY-MM-DD): ");
+      try {
+        return customerService.createCustomer(name, birthday);
+      } catch (IllegalArgumentException e) {
+        System.out.println("Error: " + e.getMessage());
+      }
+    }
+  }
+
+  // ==========================================================
+  // Account management: list, select, create, delete
+  // ==========================================================
+
+  private Account manageAccounts() {
+    while (true) {
+      List<Account> accounts = accountService.listAccounts(activeCustomer.getId());
+
+      if (accounts.isEmpty()) {
+        System.out.println("You have no accounts yet. Let's create one.");
+        Account created = createNewAccount();
+        if (created != null) {
+          return created;
+        }
+        continue;
+      }
+
+      System.out.println();
+      System.out.println("Your accounts:");
+      for (Account a : accounts) {
+        System.out.println("  " + a.getId() + ": " + a.getName() + " (Balance: " + a.getBalance() + ")");
+      }
+      System.out.println();
+      System.out.println("1) Select an account");
+      System.out.println("2) Create a new account");
+      System.out.println("3) Delete an account");
+      System.out.print("Choice: ");
+      String choice = scanner.nextLine().trim();
+
+      switch (choice) {
+        case "1" -> {
+          Account selected = selectExistingAccount(accounts);
+          if (selected != null) {
+            return selected;
+          }
+        }
+        case "2" -> {
+          Account created = createNewAccount();
+          if (created != null) {
+            return created;
+          }
+        }
+        case "3" -> deleteExistingAccount(accounts);
+        default -> System.out.println("Invalid input.");
+      }
+    }
+  }
+
+  private Account selectExistingAccount(List<Account> accounts) {
+    int id = readValidInt("Account ID: ");
+    for (Account a : accounts) {
+      if (a.getId() == id) {
+        return a;
+      }
+    }
+    System.out.println("No account with that ID belongs to you.");
+    return null;
+  }
+
+  private Account createNewAccount() {
+    System.out.print("Account name: ");
+    String name = scanner.nextLine().trim();
+    BigDecimal startingBalance = readValidAmount("Starting balance: ");
+    try {
+      return accountService.createAccount(name, startingBalance, activeCustomer.getId());
+    } catch (IllegalArgumentException e) {
+      System.out.println("Error: " + e.getMessage());
+      return null;
+    }
+  }
+
+  private void deleteExistingAccount(List<Account> accounts) {
+    int id = readValidInt("Account ID to delete: ");
+    boolean belongsToCustomer = accounts.stream().anyMatch(a -> a.getId() == id);
+    if (!belongsToCustomer) {
+      System.out.println("No account with that ID belongs to you.");
+      return;
+    }
+    try {
+      accountService.deleteAccount(id);
+      System.out.println("Account deleted.");
+      if (activeAccount != null && activeAccount.getId() == id) {
+        System.out.println("That was your active account — please select or create another.");
+      }
+    } catch (IllegalArgumentException e) {
+      System.out.println("Error: " + e.getMessage());
+    }
+  }
+
+  // ==========================================================
+  // Categories / Transactions (unchanged from before)
+  // ==========================================================
 
   private void showBalance() {
     System.out.println("Current balance: " + activeAccount.getBalance());
@@ -95,7 +245,7 @@ public class ConsoleMenu {
     System.out.print("New category name: ");
     String name = scanner.nextLine().trim();
     try {
-      Category category = categoryService.createCategory(name);
+      Category category = categoryService.createCategory(name, activeCustomer.getId());
       System.out.println("Category created: " + category.getName());
     } catch (IllegalArgumentException e) {
       System.out.println("Error: " + e.getMessage());
@@ -103,7 +253,7 @@ public class ConsoleMenu {
   }
 
   private void addTransaction() {
-    List<Category> categories = categoryService.listCategories();
+    List<Category> categories = categoryService.listCategories(activeCustomer.getId());
     if (categories.isEmpty()) {
       System.out.println("Please create a category first (option 2).");
       return;
@@ -144,6 +294,10 @@ public class ConsoleMenu {
     }
     System.out.println("Total: " + transactionService.sumByCategory(categoryId));
   }
+
+  // ==========================================================
+  // Input helpers
+  // ==========================================================
 
   private LocalDate readValidDate(String prompt) {
     while (true) {

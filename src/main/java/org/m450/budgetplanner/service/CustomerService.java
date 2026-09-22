@@ -19,10 +19,18 @@ public class CustomerService {
   }
 
   public Customer createCustomer(String name, LocalDate birthday) {
+    if (!Customer.isNameUnique(name, customers)) {
+      throw new IllegalArgumentException("A user with this name already exists: " + name);
+    }
     int nextId = customers.stream().mapToInt(Customer::getId).max().orElse(0) + 1;
     Customer customer = new Customer(nextId, name, birthday);
     customers.add(customer);
     return customer;
+  }
+
+  public Customer login(String name) {
+    return findCustomerByName(name)
+            .orElseThrow(() -> new IllegalArgumentException("No user found with name: " + name));
   }
 
   public List<Customer> listCustomers() {
